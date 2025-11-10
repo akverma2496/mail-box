@@ -19,7 +19,6 @@ const Inbox = () => {
   return (
     <>
       {!inboxEmails || Object.keys(inboxEmails).length === 0 ? (
-        // <h1 className={styles.inboxText}>No Email inbox</h1>
         <div className='d-flex justify-content-center align-items-center' style={{ minHeight: "80vh" }}>
           <h1>Inbox Is Empty</h1>
         </div>

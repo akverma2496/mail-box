@@ -19,7 +19,7 @@ const ComposeMailEditor = ({ value, setValue }) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%', // Ensure the parent container fills its available height
+        height: '100%',
       }}
     >
       {/* Title */}
@@ -32,9 +32,9 @@ const ComposeMailEditor = ({ value, setValue }) => {
         theme="snow"
         modules={modules}
         style={{
-          height: 'auto', // Let ReactQuill's height grow with content
-          flex: 1, // This ensures it expands with the content
-          marginBottom: '10px', // Optional: Margin between editor and form
+          height: 'auto',
+          flex: 1, 
+          marginBottom: '10px', 
         }}
       />
     </div>

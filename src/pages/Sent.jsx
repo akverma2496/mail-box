@@ -8,7 +8,6 @@ const Sent = () => {
   return (
     <>
       {!sentEmails || Object.keys(sentEmails).length === 0 ? (
-        // <h1 className={styles.inboxText}>No Email Sent</h1>
         <div className='d-flex justify-content-center align-items-center' style={{ minHeight: "80vh" }}>
           <h1>No Email Sent</h1>
         </div>

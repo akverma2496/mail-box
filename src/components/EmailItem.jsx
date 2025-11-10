@@ -1,32 +1,44 @@
-import React from 'react';
-import { useState } from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Row, Col } from 'react-bootstrap';
 import MyModal from './MyModal';
 import DisplayMessage from './DisplayMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaTrash } from 'react-icons/fa';
 import { deleteEmailFromInbox, deleteEmailFromSent, markEmailAsRead } from '../store/email-state/email-actions';
+import ConfirmDeleteModal from './ConfirmModal';  // Import the new confirmation modal
 
 const EmailItem = ({ id, value }) => {
+  const [modal, setModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // State for confirmation modal
+  const dispatch = useDispatch();
+  const email = useSelector(state => state.auth.email);
 
-  const [modal, setModal] = useState(false)
-  const dispatch = useDispatch()
-  const email = useSelector(state => state.auth.email)
+  // Handler to show the confirmation modal
+  const showConfirmDelete = (e) => {
+    e.stopPropagation();  // Prevent event propagation to avoid triggering email view
+    setShowConfirmModal(true); // Show the confirmation modal
+  };
 
-  const deleteMailHandler = (e) => {
-    e.stopPropagation()
-    if (value.from) dispatch(deleteEmailFromInbox(email, id))
-    else dispatch(deleteEmailFromSent(email, id))
-    setModal(false)
-  }
+  const deleteMailHandler = () => {
+    if (value.from) {
+      dispatch(deleteEmailFromInbox(email, id));
+    } else {
+      dispatch(deleteEmailFromSent(email, id));
+    }
+    setShowConfirmModal(false); // Close confirmation modal
+    setModal(false); // Close the email view modal
+  };
 
   const emailViewHandler = (e) => {
-    if(value.from && !value.read){
-      console.log("this is to show", id, value, email)
-      dispatch(markEmailAsRead(id, value, email))
+    if (value.from && !value.read) {
+      dispatch(markEmailAsRead(id, value, email));
     }
-    setModal(true)
-  }
+    setModal(true);
+  };
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(false); // Close the confirmation modal without deleting
+  };
 
   return (
     <>
@@ -43,7 +55,6 @@ const EmailItem = ({ id, value }) => {
           <Card.Body className="p-0">
             <Row className="align-items-center gx-3">
               <Col xs="auto" className='d-flex align-items-center gap-2'>
-
                 {value?.from && !value?.read && (
                   <span
                     style={{
@@ -68,13 +79,21 @@ const EmailItem = ({ id, value }) => {
                 <strong>Time:</strong> {value.time}
               </Col>
               <Col xs="auto" className="ms-auto">
-                <FaTrash style={{ cursor: 'pointer', color: '#dc3545' }} onClick={deleteMailHandler} />
+                <FaTrash style={{ cursor: 'pointer', color: '#dc3545' }} onClick={showConfirmDelete} />
               </Col>
             </Row>
           </Card.Body>
         </Card>
       </div>
-      { modal && <MyModal modal={modal} setModal={setModal}><DisplayMessage setModal={setModal} value={value} id={id} deleteMail={deleteMailHandler}/></MyModal> }
+      {modal && <MyModal modal={modal} setModal={setModal}><DisplayMessage setModal={setModal} value={value} id={id} deleteMail={deleteMailHandler}/></MyModal>}
+
+      {/* Confirmation Modal */}
+      <ConfirmDeleteModal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        onConfirm={deleteMailHandler}
+        message="Are you sure you want to delete this email?"
+      />
     </>
   );
 };

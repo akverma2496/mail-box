@@ -19,7 +19,6 @@ const emailSlice = createSlice({
             state.sent = action.payload
         },
 
-
         // sending and updating localstate every time
         sendEmailToInbox(state, action){
             state.inbox[action.payload.id] = action.payload
@@ -37,8 +36,7 @@ const emailSlice = createSlice({
         deleteEmailFromSent(state, action){
             delete state.sent[action.payload]
         }
-    },
-    
+    },  
 })
 
 export const emailActions = emailSlice.actions

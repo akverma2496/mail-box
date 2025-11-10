@@ -28,7 +28,7 @@ const Signup = () => {
     try {
       const result = await dispatch(signUpUser({ email, password })).unwrap();
       toast.success("Account has been created!");
-      navigate("/dashboard");
+      navigate("/inbox");
     } catch (error) {
       toast.error(error);
     }

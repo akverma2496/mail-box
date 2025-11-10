@@ -31,6 +31,7 @@ export const sendEmailToInbox = ({ to, subject, body, email }) => {
     }
 }
 
+
 export const sendEmailToSent = ({ to, subject, body, email }) => {
     return async (dispatch) => {
         const sender = transformEmail(email)
@@ -56,7 +57,6 @@ export const sendEmailToSent = ({ to, subject, body, email }) => {
         }
     }
 }
-
 
 
 export const setUpEmailState = (email) => {
@@ -86,6 +86,7 @@ export const deleteEmailFromInbox = (email, id) => {
     }
 }
 
+
 export const deleteEmailFromSent = (email, id) => {
     return async (dispatch) => {
         const user = transformEmail(email)
@@ -97,7 +98,6 @@ export const deleteEmailFromSent = (email, id) => {
         }
     }
 }
-
 
 
 export const listenToInboxData = (email) => async (dispatch) => {
@@ -115,7 +115,6 @@ export const listenToInboxData = (email) => async (dispatch) => {
         console.log(error)
     });
 };
-
 
 
 export const markEmailAsRead = (id, value, email) => {
